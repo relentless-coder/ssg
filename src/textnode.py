@@ -12,10 +12,10 @@ class TextType(Enum):
 
 
 class TextNode:
-    def __init__(self, text: str, text_type: TextType, url: str = ""):
+    def __init__(self, text: str, text_type: TextType, url: str | None = None):
         self.text = text
         self.text_type = text_type
-        self.url = url if url else None
+        self.url = url
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, TextNode):

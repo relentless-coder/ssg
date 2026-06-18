@@ -4,6 +4,8 @@ from split_nodes import (
     split_nodes_delimiter,
     extract_markdown_images,
     extract_markdown_links,
+    split_nodes_image,
+    split_nodes_links,
 )
 
 
@@ -25,13 +27,13 @@ class SplitNodes(unittest.TestCase):
 
     def test_split_nodes_delimiter_bold(self):
         node = TextNode(
-            "Hello *world* test me *again please*, it's great to see *you*",
+            "Hello **world** test me **again please**, it's great to see **you**",
             TextType.PLAIN,
         )
         node2 = TextNode("Another world come time again", TextType.PLAIN)
-        node3 = TextNode("Hello *world* test", TextType.PLAIN)
+        node3 = TextNode("Hello **world** test", TextType.PLAIN)
         res: list[TextNode] = split_nodes_delimiter(
-            [node, node2, node3], "*", TextType.BOLD
+            [node, node2, node3], "**", TextType.BOLD
         )
         self.assertEqual(len(res), 10)
         self.assertEqual(res[1].text, "world")
@@ -80,3 +82,63 @@ class ExtractMarkdown(unittest.TestCase):
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) [link](https://google.com)"
         )
         self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
+
+
+class SplitNodesImages(unittest.TestCase):
+    def test_split_nodes_images(self):
+        node = TextNode(
+            "Hello this is an ![image](https://google.com)", TextType.PLAIN, None
+        )
+        node2 = TextNode("And another one with nothing", TextType.PLAIN, None)
+        node3 = TextNode("an image already", TextType.IMAGE, "https://google.com")
+        res = split_nodes_image([node, node2, node3])
+        self.assertEqual(res[0].text, "Hello this is an ")
+        self.assertEqual(res[0].text_type.value, TextType.PLAIN.value)
+        self.assertEqual(res[1].text, "image")
+        self.assertEqual(res[1].url, "https://google.com")
+        self.assertEqual(res[3].text, "an image already")
+        self.assertEqual(res[3].text_type.value, TextType.IMAGE.value)
+
+    def test_split_nodes_images_not_links(self):
+        node = TextNode(
+            "Hello this is an ![image](https://google.com)", TextType.PLAIN, None
+        )
+        node2 = TextNode("And another one with nothing", TextType.PLAIN, None)
+        node3 = TextNode("this is a [link](https://google.com)", TextType.PLAIN, None)
+        res = split_nodes_image([node, node2, node3])
+        self.assertEqual(res[0].text, "Hello this is an ")
+        self.assertEqual(res[0].text_type.value, TextType.PLAIN.value)
+        self.assertEqual(res[1].text, "image")
+        self.assertEqual(res[1].url, "https://google.com")
+        self.assertEqual(res[3].text, "this is a [link](https://google.com)")
+        self.assertEqual(res[3].text_type.value, TextType.PLAIN.value)
+
+
+class SplitNodesLinks(unittest.TestCase):
+    def test_split_nodes_links(self):
+        node = TextNode(
+            "Hello this is an [link](https://google.com)", TextType.PLAIN, None
+        )
+        node2 = TextNode("And another one with nothing", TextType.PLAIN, None)
+        node3 = TextNode("a link already", TextType.LINK, "https://google.com")
+        res = split_nodes_links([node, node2, node3])
+        self.assertEqual(res[0].text, "Hello this is an ")
+        self.assertEqual(res[0].text_type.value, TextType.PLAIN.value)
+        self.assertEqual(res[1].text, "link")
+        self.assertEqual(res[1].url, "https://google.com")
+        self.assertEqual(res[3].text, "a link already")
+        self.assertEqual(res[3].text_type.value, TextType.LINK.value)
+
+    def test_split_nodes_links_not_images(self):
+        node = TextNode(
+            "Hello this is an [link](https://google.com)", TextType.PLAIN, None
+        )
+        node2 = TextNode("And another one with nothing", TextType.PLAIN, None)
+        node3 = TextNode("this is a ![image](https://google.com)", TextType.PLAIN, None)
+        res = split_nodes_links([node, node2, node3])
+        self.assertEqual(res[0].text, "Hello this is an ")
+        self.assertEqual(res[0].text_type.value, TextType.PLAIN.value)
+        self.assertEqual(res[1].text, "link")
+        self.assertEqual(res[1].url, "https://google.com")
+        self.assertEqual(res[3].text, "this is a ![image](https://google.com)")
+        self.assertEqual(res[3].text_type.value, TextType.PLAIN.value)
