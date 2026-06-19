@@ -55,7 +55,3 @@ class TestTextNodeToHTMLNode(unittest.TestCase):
         self.assertEqual(
             html_node.props, {"href": "https://google.com", "target": "_blank"}
         )
-
-
-if __name__ == "__main__":
-    unittest.main()
