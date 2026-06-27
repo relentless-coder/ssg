@@ -114,9 +114,9 @@ Line two
         self.assertEqual(blocks, [])
 
     def test_blockquote(self):
-        md = "> Quote line one\n> Quote line two"
+        md = "> Quote line one\nQuote line two"
         blocks = markdown_to_blocks(md)
-        self.assertEqual(blocks, ["> Quote line one\n> Quote line two"])
+        self.assertEqual(blocks, ["> Quote line one\nQuote line two"])
 
     def test_mixed_block_types(self):
         md = """

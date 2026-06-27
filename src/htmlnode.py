@@ -4,7 +4,7 @@ class HTMLNode:
         tag: str | None = None,
         value: str | None = None,
         props: dict[str, str] | None = None,
-        children: list[HTMLNode] | None = None,
+        children: list["HTMLNode"] | None = None,
     ):
         if not value and not children:
             raise ValueError("value and children both cannot be none")
@@ -59,15 +59,7 @@ class ParentNode(HTMLNode):
             raise ValueError("Tag is required for ParentNode")
         if not self.children:
             raise ValueError("Children are required for ParentNode")
-        res = f"<{self.tag}>"
+        children_html = ""
         for child in self.children:
-            if isinstance(child, ParentNode):
-                res += child.to_html()
-            else:
-                res += f"<{child.tag}"
-                if child.props != None and len(child.props) > 0:
-                    for prop in child.props:
-                        res += f" {prop}='{child.props[prop]}'"
-                res += f">{child.value}</{child.tag}>"
-        res += f"</{self.tag}>"
-        return res
+            children_html += child.to_html()
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
