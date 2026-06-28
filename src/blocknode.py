@@ -1,8 +1,9 @@
 import re
-from htmlnode import ParentNode
 from enum import Enum
+
+from htmlnode import HTMLNode, ParentNode
 from process_markdown import text_to_text_nodes
-from textnode import text_node_to_html_node, TextNode, TextType
+from textnode import TextNode, TextType, text_node_to_html_node
 
 
 class BlockType(Enum):
@@ -28,11 +29,13 @@ def block_to_block_type(text: str) -> BlockType:
     return BlockType.PARAGRAPH
 
 
-def paragraph_to_html_node(text: str) -> ParentNode:
+def text_to_children(text: str) -> list[HTMLNode]:
     text_nodes = text_to_text_nodes(text)
-    html_nodes = []
-    for node in text_nodes:
-        html_nodes.append(text_node_to_html_node(node))
+    return [text_node_to_html_node(node) for node in text_nodes]
+
+
+def paragraph_to_html_node(text: str) -> ParentNode:
+    html_nodes = text_to_children(text)
     return ParentNode("p", html_nodes)
 
 
@@ -43,31 +46,35 @@ def code_to_html_node(text: str) -> ParentNode:
         [text_node_to_html_node(TextNode("\n".join(lines[1:-1]), TextType.CODE, None))],
     )
 
+
 def heading_to_html_node(text: str) -> ParentNode:
     heading_level = 0
     for char in text:
-        if char == '#':
+        if char == "#":
             heading_level += 1
         else:
             break
-    text_nodes = text_to_text_nodes(text[heading_level + 1:])
-    html_nodes = []
-    for node in text_nodes:
-        html_nodes.append(text_node_to_html_node(node))
+    html_nodes = text_to_children(text[heading_level + 1 :])
     return ParentNode(f"h{heading_level}", html_nodes)
+
 
 def quote_to_html_node(text: str) -> ParentNode:
     lines = text.split("\n")
     new_lines = []
     for line in lines:
         if line.startswith("> "):
-            new_lines.append(line.lstrip('> '))
+            new_lines.append(line.lstrip("> "))
         elif line.startswith(">"):
-            new_lines.append(line.lstrip('>'))
+            new_lines.append(line.lstrip(">"))
         else:
             new_lines.append(line)
-    text_nodes = text_to_text_nodes("\n".join(new_lines))
-    html_nodes = []
-    for node in text_nodes:
-        html_nodes.append(text_node_to_html_node(node))
+    html_nodes = text_to_children("\n".join(new_lines))
     return ParentNode("blockquote", html_nodes)
+
+
+def unordered_list_to_html_node(text: str) -> ParentNode:
+    lines = text.split("\n")
+    list_nodes = []
+    for line in lines:
+        list_nodes.append(ParentNode("li", text_to_children(line[2:])))
+    return ParentNode("ul", list_nodes)
