@@ -1,17 +1,6 @@
 import re
-from textnode import TextNode, TextType
-from split_nodes import split_nodes_delimiter, split_nodes_image, split_nodes_links
-
-
-def text_to_text_nodes(text: str) -> list[TextNode]:
-    nodes = [TextNode(text, TextType.PLAIN, None)]
-    nodes = split_nodes_image(nodes)
-    nodes = split_nodes_links(nodes)
-    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
-    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
-    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
-    return nodes
-
+from htmlnode import ParentNode
+from blocknode import block_to_html_node
 
 def markdown_to_blocks(text: str) -> list[str]:
     res = []
@@ -21,3 +10,7 @@ def markdown_to_blocks(text: str) -> list[str]:
         if block != "":
             res.append(re.sub(r"(\n\s+)", "\n", block))
     return res
+
+def markdown_to_html_node(markdown: str) -> ParentNode:
+    html_nodes = [block_to_html_node(block) for block in markdown_to_blocks(markdown)]
+    return ParentNode("div", html_nodes)

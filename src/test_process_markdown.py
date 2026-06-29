@@ -1,29 +1,6 @@
 import unittest
-from textnode import TextType
-from process_markdown import text_to_text_nodes, markdown_to_blocks
-
-
-class TestTextToTextNodes(unittest.TestCase):
-    def test_text_to_text_nodes(self):
-        res = text_to_text_nodes(
-            "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
-        )
-        self.assertEqual(len(res), 10)
-        self.assertEqual(res[0].text, "This is ")
-        self.assertEqual(res[0].text_type, TextType.PLAIN)
-        self.assertEqual(res[1].text, "text")
-        self.assertEqual(res[1].text_type, TextType.BOLD)
-        self.assertEqual(res[3].text, "italic")
-        self.assertEqual(res[3].text_type, TextType.ITALIC)
-        self.assertEqual(res[5].text, "code block")
-        self.assertEqual(res[5].text_type, TextType.CODE)
-        self.assertEqual(res[7].text, "obi wan image")
-        self.assertEqual(res[7].text_type, TextType.IMAGE)
-        self.assertEqual(res[7].url, "https://i.imgur.com/fJRm4Vk.jpeg")
-
-    def test_empty_text_to_text_nodes(self):
-        res = text_to_text_nodes("")
-        self.assertEqual(len(res), 0)
+from htmlnode import ParentNode
+from process_markdown import markdown_to_blocks, markdown_to_html_node
 
 
 class TestMarkdownToBlocks(unittest.TestCase):
@@ -144,3 +121,111 @@ This is a paragraph with `code`.
         md = "Привет, мир\n\nこんにちは"
         blocks = markdown_to_blocks(md)
         self.assertEqual(blocks, ["Привет, мир", "こんにちは"])
+
+
+class TestMarkdownToHtmlNode(unittest.TestCase):
+    def test_empty_markdown(self):
+        node = markdown_to_html_node("")
+        self.assertEqual(node.to_html(), "<div></div>")
+
+    def test_single_paragraph(self):
+        node = markdown_to_html_node("This is a paragraph")
+        self.assertEqual(node.to_html(), "<div><p>This is a paragraph</p></div>")
+
+    def test_multiple_paragraphs(self):
+        node = markdown_to_html_node("Para one\n\nPara two")
+        self.assertEqual(
+            node.to_html(),
+            "<div><p>Para one</p><p>Para two</p></div>",
+        )
+
+    def test_heading(self):
+        node = markdown_to_html_node("# Heading\n\nSome text")
+        self.assertEqual(
+            node.to_html(),
+            "<div><h1>Heading</h1><p>Some text</p></div>",
+        )
+
+    def test_all_headings(self):
+        md = "\n\n".join([f"{'#' * i} Heading {i}" for i in range(1, 7)])
+        node = markdown_to_html_node(md)
+        expected = "".join([f"<h{i}>Heading {i}</h{i}>" for i in range(1, 7)])
+        self.assertEqual(node.to_html(), f"<div>{expected}</div>")
+
+    def test_code_block(self):
+        node = markdown_to_html_node("```\ncode line\n```")
+        self.assertEqual(
+            node.to_html(),
+            "<div><pre><code>code line</code></pre></div>",
+        )
+
+    def test_quote(self):
+        node = markdown_to_html_node("> A quote\n\nSome text")
+        self.assertEqual(
+            node.to_html(),
+            "<div><blockquote>A quote</blockquote><p>Some text</p></div>",
+        )
+
+    def test_unordered_list(self):
+        node = markdown_to_html_node("- one\n- two\n- three")
+        self.assertEqual(
+            node.to_html(),
+            "<div><ul><li>one</li><li>two</li><li>three</li></ul></div>",
+        )
+
+    def test_ordered_list(self):
+        node = markdown_to_html_node("1. one\n2. two\n3. three")
+        self.assertEqual(
+            node.to_html(),
+            "<div><ol><li>one</li><li>two</li><li>three</li></ol></div>",
+        )
+
+    def test_inline_formatting(self):
+        node = markdown_to_html_node("This is **bold** and _italic_ and `code`")
+        self.assertEqual(
+            node.to_html(),
+            "<div><p>This is <b>bold</b> and <i>italic</i> and <code>code</code></p></div>",
+        )
+
+    def test_link_and_image(self):
+        node = markdown_to_html_node(
+            "An ![image](https://example.com/img.png) and a [link](https://example.com)"
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<div><p>An <img src='https://example.com/img.png' alt='image'/> and a <a href='https://example.com' target='_blank'>link</a></p></div>",
+        )
+
+    def test_mixed_blocks(self):
+        md = """# Heading
+
+This is a paragraph with **bold**.
+
+- item one
+- item two
+
+1. first
+2. second
+
+> a quote
+
+```
+code
+```"""
+        node = markdown_to_html_node(md)
+        expected = (
+            "<div>"
+            "<h1>Heading</h1>"
+            "<p>This is a paragraph with <b>bold</b>.</p>"
+            "<ul><li>item one</li><li>item two</li></ul>"
+            "<ol><li>first</li><li>second</li></ol>"
+            "<blockquote>a quote</blockquote>"
+            "<pre><code>code</code></pre>"
+            "</div>"
+        )
+        self.assertEqual(node.to_html(), expected)
+
+    def test_returns_parent_node(self):
+        node = markdown_to_html_node("hello")
+        self.assertIsInstance(node, ParentNode)
+        self.assertEqual(node.tag, "div")

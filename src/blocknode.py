@@ -2,7 +2,7 @@ import re
 from enum import Enum
 
 from htmlnode import HTMLNode, ParentNode
-from process_markdown import text_to_text_nodes
+from split_nodes import text_to_text_nodes
 from textnode import TextNode, TextType, text_node_to_html_node
 
 
@@ -27,6 +27,22 @@ def block_to_block_type(text: str) -> BlockType:
     if re.search(r"^\d+\.\s", text):
         return BlockType.ORDERED_LIST
     return BlockType.PARAGRAPH
+
+def block_to_html_node(text: str) -> ParentNode:
+    block_type = block_to_block_type(text)
+    match block_type:
+        case BlockType.HEADING:
+            return heading_to_html_node(text)
+        case BlockType.CODE:
+            return code_to_html_node(text)
+        case BlockType.QUOTE:
+            return quote_to_html_node(text)
+        case BlockType.UNORDERED_LIST:
+            return unordered_list_to_html_node(text)
+        case BlockType.ORDERED_LIST:
+            return ordered_list_to_html_node(text)
+        case _:
+            return paragraph_to_html_node(text)
 
 
 def text_to_children(text: str) -> list[HTMLNode]:

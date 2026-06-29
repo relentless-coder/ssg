@@ -1,6 +1,14 @@
 import re
 from textnode import TextNode, TextType
 
+def text_to_text_nodes(text: str) -> list[TextNode]:
+    nodes = [TextNode(text, TextType.PLAIN, None)]
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_links(nodes)
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    return nodes
 
 def add_text_node_to_res(
     text: str, text_type: TextType, url: str | None, res: list[TextNode]

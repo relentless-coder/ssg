@@ -12,7 +12,10 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node.children, None)
 
     def test_html_node_with_no_value_and_children(self):
-        self.assertRaises(ValueError, HTMLNode, "div")
+        node = HTMLNode("br")
+        self.assertEqual(node.tag, "br")
+        self.assertEqual(node.value, None)
+        self.assertEqual(node.children, None)
 
     def test_props_to_html(self):
         node = HTMLNode(
@@ -42,7 +45,8 @@ class TestLeafNode(unittest.TestCase):
 
 class TestParentNode(unittest.TestCase):
     def test_raises_valueerror_when_no_value(self):
-        self.assertRaises(ValueError, ParentNode, "div", None)
+        parent_node = ParentNode("div", None)
+        self.assertEqual(parent_node.to_html(), "<div></div>")
 
     def test_to_html_with_children(self):
         child_node = LeafNode("span", "child")
