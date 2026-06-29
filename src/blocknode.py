@@ -75,6 +75,41 @@ def quote_to_html_node(text: str) -> ParentNode:
 def unordered_list_to_html_node(text: str) -> ParentNode:
     lines = text.split("\n")
     list_nodes = []
+    acc = []
     for line in lines:
-        list_nodes.append(ParentNode("li", text_to_children(line[2:])))
+        if re.match(r"- ", line):
+            if len(acc) > 0:
+                list_nodes.append(
+                    ParentNode(
+                        "li",
+                        text_to_children("\n".join(acc)),
+                    )
+                )
+            acc = [line[2:]]
+        else:
+            acc.append(line)
+    if len(acc) > 0:
+        list_nodes.append(ParentNode("li", text_to_children("\n".join(acc))))
     return ParentNode("ul", list_nodes)
+
+
+def ordered_list_to_html_node(text: str) -> ParentNode:
+    lines = text.split("\n")
+    list_nodes = []
+    acc = []
+    for line in lines:
+        match = re.match(r"\d+\.\s", line)
+        if match:
+            if len(acc) > 0:
+                list_nodes.append(
+                    ParentNode(
+                        "li",
+                        text_to_children("\n".join(acc)),
+                    )
+                )
+            acc = [line[match.end() :]]
+        else:
+            acc.append(line)
+    if len(acc) > 0:
+        list_nodes.append(ParentNode("li", text_to_children("\n".join(acc))))
+    return ParentNode("ol", list_nodes)
