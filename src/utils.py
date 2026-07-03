@@ -41,3 +41,10 @@ def traverse_dir_and_copy_content(src: str, dest: str, curr_path: list[str]):
         else:
             copy_file(os.path.join(src, "/".join(curr_path), item.name), os.path.join(dest,"/".join(curr_path)))
     return
+
+def read_file(file_path: str) -> str:
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f"Invalid file_path: {file_path}")
+    with open(file_path) as f:
+        s = f.read()
+    return s

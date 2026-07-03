@@ -1,6 +1,15 @@
+import os
+import tempfile
 import unittest
+from pathlib import Path
+
 from htmlnode import ParentNode
-from process_markdown import markdown_to_blocks, markdown_to_html_node
+from process_markdown import (
+    markdown_to_blocks,
+    markdown_to_html_node,
+    extract_title,
+    generate_page,
+)
 
 
 class TestMarkdownToBlocks(unittest.TestCase):
@@ -229,3 +238,76 @@ code
         node = markdown_to_html_node("hello")
         self.assertIsInstance(node, ParentNode)
         self.assertEqual(node.tag, "div")
+
+class TestExtractTitle(unittest.TestCase):
+    def test_extract_h1_title(self):
+        md = """
+        # Hello World
+
+        ## And this is not what i want
+        """
+        heading = extract_title(md)
+        self.assertEqual(heading, "Hello World")
+
+    def test_extract_title_raise(self):
+        md = """
+        ## And this is not
+
+        ### And why not
+        """
+        self.assertRaises(ValueError, extract_title, md)
+
+
+class TestGeneratePage(unittest.TestCase):
+    def test_generates_index_html(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            from_path = Path(tmp, "content.md")
+            template_path = Path(tmp, "template.html")
+            dest_path = Path(tmp, "public")
+            dest_path.mkdir()
+
+            from_path.write_text("# My Title\n\nHello world")
+            template_path.write_text("<title>{{ Title }}</title>\n<body>{{ Content }}</body>")
+
+            generate_page(str(from_path), str(template_path), str(dest_path))
+
+            output = Path(dest_path, "index.html").read_text()
+            self.assertIn("<title>My Title</title>", output)
+            self.assertIn("<h1>My Title</h1>", output)
+            self.assertIn("<p>Hello world</p>", output)
+
+    def test_missing_from_path_does_not_create_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            template_path = Path(tmp, "template.html")
+            dest_path = Path(tmp, "public")
+            dest_path.mkdir()
+            template_path.write_text("<html>{{ Content }}</html>")
+
+            generate_page(str(Path(tmp, "missing.md")), str(template_path), str(dest_path))
+
+            self.assertFalse(Path(dest_path, "index.html").exists())
+
+    def test_missing_template_does_not_create_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            from_path = Path(tmp, "content.md")
+            dest_path = Path(tmp, "public")
+            dest_path.mkdir()
+            from_path.write_text("# Title\n\ncontent")
+
+            generate_page(str(from_path), str(Path(tmp, "missing.html")), str(dest_path))
+
+            self.assertFalse(Path(dest_path, "index.html").exists())
+
+    def test_missing_h1_does_not_create_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            from_path = Path(tmp, "content.md")
+            template_path = Path(tmp, "template.html")
+            dest_path = Path(tmp, "public")
+            dest_path.mkdir()
+
+            from_path.write_text("## No h1\n\ncontent")
+            template_path.write_text("<html>{{ Title }}</html>")
+
+            generate_page(str(from_path), str(template_path), str(dest_path))
+
+            self.assertFalse(Path(dest_path, "index.html").exists())
