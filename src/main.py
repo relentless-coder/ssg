@@ -1,5 +1,6 @@
 import os
 from utils import cleanup_dir, traverse_dir_and_copy_content, create_dir
+from process_markdown import generate_pages_recursive
 
 
 def main():
@@ -17,6 +18,11 @@ def main():
         traverse_dir_and_copy_content(dest=DEST_DIR, src=SRC_DIR, curr_path=[])
     except Exception:
         print(f"Copy failed {Exception.__bases__}")
+        return
+    try:
+        generate_pages_recursive("content", "template.html", "public")
+    except (ValueError, FileNotFoundError) as e:
+        print(f"Error generating page {e}")
         return
 
 

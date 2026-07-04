@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import re
 from htmlnode import ParentNode
 from blocknode import block_to_html_node
-from utils import read_file
+from utils import read_file, create_dir
 
 
 def markdown_to_blocks(text: str) -> list[str]:
@@ -51,6 +52,21 @@ def generate_page(from_path: str, template_path: str, dest_path: str):
     content = markdown_to_html_node(md)
     html = html.replace("{{ Title }}", title)
     html = html.replace("{{ Content }}", content.to_html())
-    with open(os.path.join(dest_path, "index.html"), "w") as f:
+    from_file_name = Path(from_path)
+    with open(os.path.join(dest_path, from_file_name.name.split(".")[0] + ".html"), "w") as f:
         f.write(html)
     print(f"Generate html page at {dest_path}")
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    src_path = Path(dir_path_content)
+    if not src_path.exists():
+        raise ValueError(f"Invalid source path {src_path}")
+    for item in src_path.iterdir():
+        if item.is_dir() and not item.is_symlink():
+            create_dir(os.path.join(dest_dir_path, item.name))
+            generate_pages_recursive(os.path.join(dir_path_content, item.name), template_path, os.path.join(dest_dir_path, item.name))
+        elif item.is_file():
+            generate_page(os.path.join(dir_path_content, item.name), template_path, dest_path=dest_dir_path)
+    return
+
+
