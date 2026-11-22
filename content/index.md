@@ -16,7 +16,7 @@ Grab my [resume](/files/resume.pdf") here.
 
 ## what I'm into lately
 
-- **systems programming**: Going closer to the metal and learning what's happening underneath the abstractions. It's humbling and very good for the soul.
+- **systems programming**: Going closer to the metal and learning what's happening underneath the abstractions. It's humbling and very good for the soul. Check out my two ongoing projects **[maro_malloc](https://github.com/relentless-coder/maro_malloc)** and **[network-dalaal](https://github.com/relentless-coder/network-dalaal)**
 - **choiceless awareness**: Watching whatever comes up without trying to pick or fix anything. It's surprisingly hard. My brain keeps trying to file a ticket.
 - **multiple income streams**: Mostly daydreaming at this stage. The plan is still in "someday" and hasn't reached the roadmap yet.
 
