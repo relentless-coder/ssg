@@ -1,130 +1,193 @@
+/* ==========================================================
+   TOKYOBONES — web version of the zenbones.nvim "tokyobones" theme
+   Contrast-based: mostly monochrome, color used sparingly.
+   Dark values are from the published tokyobones dark palette.
+   Light values are an approximation (not taken from the plugin).
+   ========================================================== */
+
+:root {
+  /* dark (default) */
+  --bg:        #1a1b26;
+  --bg-alt:    #202233;   /* panels, cards (derived) */
+  --bg-sel:    #2a2d44;   /* selection / hover (derived) */
+  --fg:        #c0caf5;
+  --fg-dim:    #7f89b8;   /* comments (derived) */
+  --line:      #2f3350;
+
+  --red:       #f77890;
+  --green:     #74dbcb;
+  --yellow:    #e1b068;
+  --blue:      #7ba2f7;
+  --magenta:   #bb9bf7;
+  --cyan:      #2bc4de;
+
+  --accent:    var(--blue);
+
+  --font: "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;     
+
+}
+
+/* light variant: add data-theme="light" on <html>, or follow the OS */
+:root[data-theme="light"] {
+  --bg:      #e6e7ed;
+  --bg-alt:  #dcdde6;
+  --bg-sel:  #cdd2e8;
+  --fg:      #343b58;
+  --fg-dim:  #6a6f8e;
+  --line:    #c3c6d6;
+  --red:     #b3354f;
+  --green:   #2e7d6e;
+  --yellow:  #8f5e15;
+  --blue:    #34548a;
+  --magenta: #7847bd;
+  --cyan:    #0f7a96;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:      #e6e7ed;
+    --bg-alt:  #dcdde6;
+    --bg-sel:  #cdd2e8;
+    --fg:      #343b58;
+    --fg-dim:  #6a6f8e;
+    --line:    #c3c6d6;
+    --red:     #b3354f;
+    --green:   #2e7d6e;
+    --yellow:  #8f5e15;
+    --blue:    #34548a;
+    --magenta: #7847bd;
+    --cyan:    #0f7a96;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  background-color: #1f1c25;
-  color: #f0e6d1;
-  font-family: "Luminari", "Georgia", serif;
-  line-height: 1.7;
-  margin: 0;
-  padding: 20px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
 }
 
-b {
-  font-weight: 900;
-}
+::selection { background: var(--bg-sel); color: var(--fg); }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #dda15e;
-  margin-top: 24px;
-  margin-bottom: 16px;
-  text-shadow: 2px 2px 4px #000;
-}
+/* ---------- Layout ---------- */
+.container { width: min(860px, 100% - 2.5rem); margin-inline: auto; }
+section { padding: 3.5rem 0; border-bottom: 1px solid var(--line); }
 
-h1 {
-  font-size: 2.5em;
-}
+/* ---------- Typography (zenbones: weight/style, not color, does the work) ---------- */
+h1, h2, h3 { font-weight: 700; line-height: 1.25; color: var(--fg); }
+h1 { font-size: clamp(2rem, 6vw, 3.2rem); }
+h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
 
-h2 {
-  font-size: 2em;
-}
+h2::before { content: "# "; color: var(--fg-dim); font-weight: 400; }
+h3::before { content: "## "; color: var(--fg-dim); font-weight: 400; }
 
-h3 {
-  font-size: 1.5em;
-}
-
-h4,
-h5,
-h6 {
-  font-size: 1.2em;
-}
+p { color: var(--fg); margin-bottom: 1rem; max-width: 70ch; }
+.comment, small { color: var(--fg-dim); font-style: italic; }
 
 a {
-  color: #e0a96d;
-  text-decoration: none;
-  border-bottom: 2px solid #e0a96d;
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
 }
+a:hover { text-decoration-color: var(--accent); }
 
-a:hover {
-  color: #f4a261;
-  border-color: #f4a261;
-}
+strong { color: var(--yellow); font-weight: 700; }
+em { color: var(--magenta); }
 
-ul,
-ol {
-  padding-left: 30px;
+code, pre {
+  font-family: var(--font);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
 }
-
-code {
-  background-color: #3c3c42;
-  border-radius: 6px;
-  color: #e9c46a;
-  padding: 0.4em 0.6em;
-  font-family: "Courier New", monospace;
-}
-
-pre code {
-  padding: 0;
-}
-
-pre {
-  background-color: #3c3c42;
-  border-radius: 6px;
-  padding: 1em;
-  overflow: auto;
-  box-shadow: 2px 2px 6px #000;
-}
+code { padding: 0.1em 0.4em; color: var(--green); font-size: 0.9em; }
+pre  { padding: 1rem 1.25rem; overflow-x: auto; margin-bottom: 1rem; }
+pre code { border: 0; padding: 0; background: none; }
 
 blockquote {
-  background-color: #2e2c35;
-  border-left: 4px solid #8d99ae;
-  padding-left: 2em;
-  margin-left: 0;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  padding-right: 0.5em;
-  color: #ddd;
+  border-left: 3px solid var(--magenta);
+  padding-left: 1rem;
+  color: var(--fg-dim);
   font-style: italic;
+  margin-bottom: 1rem;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 6px;
-  border: 3px solid #3c3c42;
-  box-shadow: 3px 3px 6px #000;
-}
+hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
+ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+li::marker { color: var(--fg-dim); }
 
-::-webkit-scrollbar-track {
-  background: #1f1c25;
-  border-radius: 6px;
+/* ---------- Header / nav (statusline feel) ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
 }
+nav { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0; }
+.logo { color: var(--fg); font-weight: 700; text-decoration: none; }
+.logo span { color: var(--blue); }
+nav ul { display: flex; gap: 1.5rem; list-style: none; padding: 0; margin: 0; }
+nav a { color: var(--fg-dim); text-decoration: none; font-size: 0.9rem; }
+nav a:hover, nav a[aria-current="page"] { color: var(--fg); background: var(--bg-sel); padding: 0.15rem 0.4rem; }
 
-::-webkit-scrollbar-thumb {
-  background-color: #3c3c42;
-  border-radius: 6px;
-  border: 3px solid #1f1c25;
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--fg-dim);
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
 }
+.btn:hover { background: var(--bg-sel); border-color: var(--fg); }
+.btn-primary { border-color: var(--blue); color: var(--blue); }
+.btn-primary:hover { background: var(--blue); color: var(--bg); }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #5a5466;
-}
+/* ---------- Cards ---------- */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.card { background: var(--bg-alt); border: 1px solid var(--line); padding: 1.25rem; transition: border-color 0.15s; }
+.card:hover { border-color: var(--fg-dim); }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #3c3c42 #1f1c25;
-}
+/* syntax-style tags, for the little pops of color */
+.tag { font-size: 0.75rem; padding: 0.05rem 0.5rem; border: 1px solid currentColor; margin-right: 0.4rem; }
+.tag-red { color: var(--red); }
+.tag-green { color: var(--green); }
+.tag-yellow { color: var(--yellow); }
+.tag-blue { color: var(--blue); }
+.tag-magenta { color: var(--magenta); }
+.tag-cyan { color: var(--cyan); }
 
-::-webkit-scrollbar-corner {
-  background: #1f1c25;
+/* ---------- Forms ---------- */
+input, textarea, select {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  color: var(--fg);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.8rem;
+  outline: none;
 }
+input:focus, textarea:focus, select:focus { border-color: var(--blue); }
+::placeholder { color: var(--fg-dim); }
+
+/* ---------- Tables ---------- */
+table { border-collapse: collapse; width: 100%; margin-bottom: 1rem; }
+th, td { text-align: left; padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--line); }
+th { color: var(--fg-dim); font-weight: 400; }
+
+footer { padding: 2rem 0; color: var(--fg-dim); font-size: 0.8rem; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
