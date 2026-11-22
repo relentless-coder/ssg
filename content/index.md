@@ -12,11 +12,11 @@ I've spent 8+ years building software, mostly on the backend: event-driven pipel
 
 I like clear designs, boring tools that work, and dashboards that go quiet once a migration is finished. I've worked with distributed, cross-timezone teams, and remote suits me fine.
 
-Grab my [resume](/files/resume.pdf") here.
+Grab my [resume](/files/resume.pdf) here.
 
 ## what I'm into lately
 
-- **systems programming**: Going closer to the metal and learning what's happening underneath the abstractions. It's humbling and very good for the soul. Check out my two ongoing projects **[maro_malloc](https://github.com/relentless-coder/maro_malloc)** and **[network-dalaal](https://github.com/relentless-coder/network-dalaal)**
+- **systems programming**: Going closer to the metal and learning what's happening underneath the abstractions. It's humbling and very good for the soul. Check out my two ongoing projects [maro_malloc](https://github.com/relentless-coder/maro_malloc) and [network-dalaal](https://github.com/relentless-coder/network-dalaal).
 - **choiceless awareness**: Watching whatever comes up without trying to pick or fix anything. It's surprisingly hard. My brain keeps trying to file a ticket.
 - **multiple income streams**: Mostly daydreaming at this stage. The plan is still in "someday" and hasn't reached the roadmap yet.
 

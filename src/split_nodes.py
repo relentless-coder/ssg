@@ -22,6 +22,9 @@ def split_nodes_delimiter(
     res = []
 
     for node in old_nodes:
+        if node.text_type != TextType.PLAIN:
+            res.append(node)
+            continue
         items = node.text.split(delimiter)
         if len(items) % 2 == 0:
             raise ValueError("Invalid markdown syntax")
@@ -43,14 +46,14 @@ def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
         if len(matches) > 0:
             curr_pos = 0
             for text, url in matches:
-                link_index = node.text.find(f"![{text}]({url})")
+                link_index = node.text.find(f"![{text}]({url})", curr_pos)
                 if curr_pos < link_index:
                     add_text_node_to_res(
                         node.text[curr_pos:link_index], node.text_type, node.url, res
                     )
                 add_text_node_to_res(text, TextType.IMAGE, url, res)
                 ln = len(f"![{text}]({url})")
-                curr_pos += ln + link_index
+                curr_pos = link_index + ln
             if curr_pos < len(node.text):
                 add_text_node_to_res(
                     node.text[curr_pos : len(node.text)], node.text_type, node.url, res
@@ -69,13 +72,13 @@ def split_nodes_links(old_nodes: list[TextNode]) -> list[TextNode]:
         if len(matches) > 0:
             curr_pos = 0
             for text, url in matches:
-                link_index = node.text.find(f"[{text}]({url})")
+                link_index = node.text.find(f"[{text}]({url})", curr_pos)
                 if curr_pos < link_index:
                     add_text_node_to_res(
                         node.text[curr_pos:link_index], node.text_type, node.url, res
                     )
                 add_text_node_to_res(text, TextType.LINK, url, res)
-                curr_pos += len(f"[{text}]({url})") + link_index
+                curr_pos = link_index + len(f"[{text}]({url})")
 
             if curr_pos < len(node.text):
                 add_text_node_to_res(
