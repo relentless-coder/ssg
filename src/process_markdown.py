@@ -29,7 +29,7 @@ def extract_title(markdown: str) -> str:
         raise ValueError('No h1 heading in markdown')
     return blocks[0][2:]
 
-def generate_page(from_path: str, template_path: str, dest_path: str):
+def generate_page(*, from_path: str, template_path: str, dest_path: str, base_path: str):
     md = ""
     html = ""
     try:
@@ -52,21 +52,22 @@ def generate_page(from_path: str, template_path: str, dest_path: str):
     content = markdown_to_html_node(md)
     html = html.replace("{{ Title }}", title)
     html = html.replace("{{ Content }}", content.to_html())
+    html = html.replace("href=\"/\"", f"href=\"{base_path}\"")
     from_file_name = Path(from_path)
     with open(os.path.join(dest_path, from_file_name.name.split(".")[0] + ".html"), "w") as f:
         f.write(html)
     print(f"Generate html page at {dest_path}")
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(*, dir_path_content, template_path, dest_dir_path, base_path):
     src_path = Path(dir_path_content)
     if not src_path.exists():
         raise ValueError(f"Invalid source path {src_path}")
     for item in src_path.iterdir():
         if item.is_dir() and not item.is_symlink():
             create_dir(os.path.join(dest_dir_path, item.name))
-            generate_pages_recursive(os.path.join(dir_path_content, item.name), template_path, os.path.join(dest_dir_path, item.name))
+            generate_pages_recursive(dir_path_content=os.path.join(dir_path_content, item.name), template_path=template_path, dest_dir_path=os.path.join(dest_dir_path, item.name), base_path=base_path)
         elif item.is_file():
-            generate_page(os.path.join(dir_path_content, item.name), template_path, dest_path=dest_dir_path)
+            generate_page(from_path=os.path.join(dir_path_content, item.name), template_path=template_path, dest_path=dest_dir_path, base_path=base_path)
     return
 
 
