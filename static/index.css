@@ -63,6 +63,7 @@
 
 body {
   background: var(--bg);
+  padding: 20px;
   color: var(--fg);
   font-family: var(--font);
   font-size: 15px;

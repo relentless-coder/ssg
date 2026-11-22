@@ -1,4 +1,4 @@
-# Ayush Bahuguna
+# Ayush
 
 `hello, world.`
 
