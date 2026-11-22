@@ -1,9 +1,13 @@
-# Contact the Author
+# contact me
 
 [< Back Home](/)
 
-Give me a call anytime to chat about Tolkien!
+`got a project, question or just want to say hi? reach out.`
 
-`555-555-5555`
+- **email**: [contact@ayushbahuguna.com](mailto:contact@ayushbahuguna.com)
+- **linkedin**: [linkedin.com/in/ayushdevelops](https://www.linkedin.com/in/ayushdevelops/)
+- **github**: [github.com/relentless-coder](https://github.com/relentless-coder)
 
-**"Váya márië."**
+[send an email](mailto:contact@ayushbahuguna.com)
+
+© 2026 Ayush Bahuguna

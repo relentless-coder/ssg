@@ -42,7 +42,7 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
             if text_node.url is None:
                 raise ValueError("URL is required for a tag")
             return LeafNode(
-                "a", text_node.text, {"href": text_node.url, "target": "_blank"}
+                "a", text_node.text, {"href": text_node.url}
             )
         case TextType.CODE:
             return LeafNode("code", text_node.text)
