@@ -1,17 +1,184 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tolkien Fan Club</title>
-    <link href="/index.css" rel="stylesheet" />
-  </head>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayush Bahuguna | Senior Software Engineer</title>
+  <meta name="description" content="Ayush Bahuguna is a senior software engineer in Bengaluru who builds backend systems, event-driven pipelines and LLM-powered products.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokyobones.css">
+  <style>
+    .hero { padding: 5rem 0 4rem; }
+    .hero .lead { font-size: 1.1rem; max-width: 60ch; }
+    .hero .actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-  <body>
-    <article><div><h1>Tolkien Fan Club</h1><p><img src='/images/tolkien.png' alt='JRR Tolkien sitting'/></p><p>Here's the deal, <b>I like Tolkien</b>.</p><blockquote>"I am in fact a Hobbit in all but size."
+    .job { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+    .job:first-of-type { border-top: 0; padding-top: 0; }
+    .job-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; align-items: baseline; }
+    .job-head h3 { margin: 0; }
+    .job-meta { color: var(--fg-dim); font-size: 0.85rem; }
+    .job ul { margin-top: 0.75rem; }
+    .job li { margin-bottom: 0.5rem; }
 
--- J.R.R. Tolkien</blockquote><h2>Blog posts</h2><ul><li><a href='/blog/glorfindel' target='_blank'>Why Glorfindel is More Impressive than Legolas</a></li><li><a href='/blog/tom' target='_blank'>Why Tom Bombadil Was a Mistake</a></li><li><a href='/blog/majesty' target='_blank'>The Unparalleled Majesty of "The Lord of the Rings"</a></li></ul><h2>Reasons I like Tolkien</h2><ul><li>You can spend years studying the legendarium and still not understand its depths</li><li>It can be enjoyed by children and adults alike</li><li>Disney <i>didn't ruin it</i> (okay, but Amazon might have)</li><li>It created an entirely new genre of fantasy</li></ul><h2>My favorite characters (in order)</h2><ol><li>Gandalf</li><li>Bilbo</li><li>Sam</li><li>Glorfindel</li><li>Galadriel</li><li>Elrond</li><li>Thorin</li><li>Sauron</li><li>Aragorn</li></ol><p>Here's what <code>elflang</code> looks like (the perfect coding language):</p><pre><code>func main(){
-fmt.Println("Aiya, Ambar!")
-}</code></pre><p>Want to get in touch? <a href='/contact' target='_blank'>Contact me here</a>.</p><p>This site was generated with a custom-built <a href='https://www.boot.dev/courses/build-static-site-generator-python' target='_blank'>static site generator</a> from the course on <a href='https://www.boot.dev' target='_blank'>Boot.dev</a></p></div></article>
-  </body>
+    .skills dt { color: var(--fg-dim); margin-top: 1rem; font-size: 0.85rem; }
+    .skills dd { margin: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="logo" href="#">ayush<span>bahuguna</span></a>
+        <ul>
+          <li><a href="#about">about</a></li>
+          <li><a href="#experience">experience</a></li>
+          <li><a href="#interests">interests</a></li>
+          <li><a href="contact.html">contact</a></li>
+          <li><button class="btn" id="toggle" type="button">light/dark</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="comment">hello, world.</p>
+        <h1>Ayush Bahuguna</h1>
+        <p class="lead">I'm a senior software engineer in Bengaluru. I build backend systems that keep working when nobody's looking, which is the only kind worth building.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="contact.html">say hi</a>
+          <a class="btn" href="#experience">see what I've built</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <h2>about</h2>
+        <p>I've spent 8+ years building software, mostly on the backend: event-driven pipelines, APIs, data migrations, and more recently, LLM-powered products. I've worked across the stack, but I'm happiest when the problem involves queues, schemas and production reliability.</p>
+        <p>I like clear designs, boring tools that work, and dashboards that go quiet once a migration is finished. I've worked with distributed, cross-timezone teams, and remote suits me fine.</p>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <h2>experience</h2>
+
+        <article class="job">
+          <div class="job-head">
+            <h3>SDE 3, Zuma</h3>
+            <span class="job-meta">Mar 2024 – Jun 2026 · Bengaluru</span>
+          </div>
+          <p class="comment">YC / a16z-backed</p>
+          <ul>
+            <li>Built the event-driven backend (Node.js, Express.js, RabbitMQ) behind a 0→1 product launch, syncing third-party resident data across systems. <strong>$1M+ ARR</strong> within a year.</li>
+            <li>Helped a 3-engineer team move from MongoDB to PostgreSQL. I led the schema design, and two major endpoints went from <strong>5–6s to under 1s</strong>.</li>
+            <li>Owned three legacy migrations end to end: cron jobs to AWS EventBridge/Fargate, a WebSocket/events repo, and an Apollo GraphQL API to REST. Each was done incrementally, and I checked with New Relic that the old paths had gone quiet.</li>
+            <li>Contributed to a Python gRPC conversation manager and a Node.js multi-agent system for LLM-powered queries in production.</li>
+            <li>Wrote technical spikes and design docs, mentored SDE I and II engineers, and shared the on-call rotation.</li>
+          </ul>
+        </article>
+
+        <article class="job">
+          <div class="job-head">
+            <h3>SDE 2, PeopleGrove</h3>
+            <span class="job-meta">Jun 2021 – Feb 2024 · Mumbai</span>
+          </div>
+          <ul>
+            <li>Built an internal tool that spins up a test environment from any GitHub branch (Docker, Bash, GCP).</li>
+            <li>Redesigned authentication with TOTP-based 2FA and secure token rotation, which contributed to SOC 2 compliance.</li>
+            <li>Cut API response times from about 1.5–2s to <strong>under 400ms</strong> with PostgreSQL indexing and Redis caching.</li>
+            <li>Helped shape the core backend architecture during the company's early growth.</li>
+          </ul>
+        </article>
+
+        <article class="job">
+          <div class="job-head">
+            <h3>SDE 1, PeopleGrove</h3>
+            <span class="job-meta">May 2018 – Jun 2020 · Mumbai</span>
+          </div>
+          <ul>
+            <li>Built features end to end, with React UIs on top of Sails.js APIs.</li>
+            <li>Wrote CSV ingestion pipelines for university clients, with validation and failure handling so messy data didn't cause loss or duplicates.</li>
+            <li>Helped migrate the frontend from Angular.js to React.</li>
+          </ul>
+        </article>
+
+        <article class="job">
+          <div class="job-head">
+            <h3>Fullstack Developer, The Founder's Cafe</h3>
+            <span class="job-meta">Jan 2017 – Apr 2018 · Delhi</span>
+          </div>
+          <ul>
+            <li>Built client and admin apps in AngularJS and React, plus Node.js services for meeting bookings.</li>
+            <li>Shipped a real-time chat service with Socket.IO and Redis, and ran backend services on AWS EC2 with CI/CD.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="interests">
+      <div class="container">
+        <h2>what I'm into lately</h2>
+        <div class="grid">
+          <div class="card">
+            <span class="tag tag-blue">systems programming</span>
+            <p>Going closer to the metal and learning what's happening underneath the abstractions. It's humbling and very good for the soul.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-magenta">choiceless awareness</span>
+            <p>Watching whatever comes up without trying to pick or fix anything. It's surprisingly hard. My brain keeps trying to file a ticket.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-green">multiple income streams</span>
+            <p>Mostly daydreaming at this stage. The plan is still in "someday" and hasn't reached the roadmap yet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container skills">
+        <h2>tools I reach for</h2>
+        <dl>
+          <dt>languages</dt>
+          <dd>JavaScript, TypeScript, Python, C, Bash</dd>
+          <dt>backend and messaging</dt>
+          <dd>Node.js, Express.js, gRPC, WebSocket, REST, GraphQL, RabbitMQ</dd>
+          <dt>data</dt>
+          <dd>PostgreSQL, MongoDB, Redis</dd>
+          <dt>cloud and devops</dt>
+          <dd>AWS, GCP, Docker, Kubernetes, GitHub Actions</dd>
+          <dt>ai and agents</dt>
+          <dd>LLM-powered agentic workflows, OpenAI API, prompt engineering</dd>
+          <dt>observability</dt>
+          <dd>New Relic, Grafana, Sentry</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <h2>get in touch</h2>
+        <p>If you're building something interesting, or just want to talk about queues, schemas or awareness, I'd be glad to hear from you.</p>
+        <p>
+          <a class="btn btn-primary" href="mailto:contact@ayushbahuguna.com">contact@ayushbahuguna.com</a>
+          <a class="btn" href="https://www.linkedin.com/in/ayushdevelops/" target="_blank" rel="noopener noreferrer">linkedin</a>
+          <a class="btn" href="https://github.com/relentless-coder" target="_blank" rel="noopener noreferrer">github</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2026 Ayush Bahuguna</footer>
+
+  <script>
+    document.getElementById("toggle").addEventListener("click", function () {
+      var r = document.documentElement;
+      r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark";
+    });
+  </script>
+</body>
 </html>

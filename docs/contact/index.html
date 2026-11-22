@@ -1,13 +1,64 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Contact the Author</title>
-    <link href="/index.css" rel="stylesheet" />
-  </head>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | Ayush Bahuguna</title>
+  <meta name="description" content="Get in touch with Ayush Bahuguna.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokyobones.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="logo" href="#">ayush<span>bahuguna</span></a>
+        <ul>
+          <li><a href="#contact" aria-current="page">contact</a></li>
+          <li><button class="btn" id="toggle" type="button">light/dark</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-  <body>
-    <article><div><h1>Contact the Author</h1><p><a href='/' target='_blank'>< Back Home</a></p><p>Give me a call anytime to chat about Tolkien!</p><p><code>555-555-5555</code></p><p><b>"Váya márië."</b></p></div></article>
-  </body>
+  <main>
+    <section id="contact">
+      <div class="container">
+        <h1>contact me</h1>
+        <p class="comment">got a project, question or just want to say hi? reach out.</p>
+
+        <div class="grid" style="margin-top: 2rem;">
+          <div class="card">
+            <span class="tag tag-blue">email</span>
+            <p><a href="mailto:contact@ayushbahuguna.com">contact@ayushbahuguna.com</a></p>
+          </div>
+
+          <div class="card">
+            <span class="tag tag-cyan">linkedin</span>
+            <p><a href="https://www.linkedin.com/in/ayushdevelops/" target="_blank" rel="noopener noreferrer">linkedin.com/in/ayushdevelops</a></p>
+          </div>
+
+          <div class="card">
+            <span class="tag tag-magenta">github</span>
+            <p><a href="https://github.com/relentless-coder" target="_blank" rel="noopener noreferrer">github.com/relentless-coder</a></p>
+          </div>
+        </div>
+
+        <p style="margin-top: 2rem;">
+          <a class="btn btn-primary" href="mailto:contact@ayushbahuguna.com">send an email</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2026 Ayush Bahuguna</footer>
+
+  <script>
+    document.getElementById("toggle").addEventListener("click", function () {
+      var r = document.documentElement;
+      r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark";
+    });
+  </script>
+</body>
 </html>
