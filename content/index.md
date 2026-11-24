@@ -2,39 +2,16 @@
 
 `hello, world.`
 
-I'm a senior software engineer in Bengaluru. I build backend systems that keep working when nobody's looking, which is the only kind worth building.
-
 [say hi](/contact)
 
-## about
+I've spent 8+ years building software, mostly on the backend: event-driven pipelines, APIs, data migrations, and more recently, LLM-powered products. I can work across the stack, but prefer backend heavy roles. Might be an ego thing. I'll update once I have the answer.
 
-I've spent 8+ years building software, mostly on the backend: event-driven pipelines, APIs, data migrations, and more recently, LLM-powered products. I've worked across the stack, but I'm happiest when the problem involves queues, schemas and production reliability.
+Currently, i'm exploring systems programming. I've two ongoing projects
 
-I like clear designs, boring tools that work, and dashboards that go quiet once a migration is finished. I've worked with distributed, cross-timezone teams, and remote suits me fine.
+[maro_malloc](https://github.com/relentless-coder/maro_malloc): A memory allocator written in C. Runs first fit algorithm against a sorted list to find free memory to allocate. Adjacent nodes in the free list are coalesced to reduce fragmentation.
+
+[network-dalaal](https://github.com/relentless-coder/network-dalaal): I had a simple idea of building a reverse-proxy/load-balancer. By far the most tedious project i've ever worked on. 
 
 Grab my [resume](/files/resume.pdf) here.
 
-## what I'm into lately
-
-- **systems programming**: Going closer to the metal and learning what's happening underneath the abstractions. It's humbling and very good for the soul. Check out my two ongoing projects [maro_malloc](https://github.com/relentless-coder/maro_malloc) and [network-dalaal](https://github.com/relentless-coder/network-dalaal).
-- **choiceless awareness**: Watching whatever comes up without trying to pick or fix anything. It's surprisingly hard. My brain keeps trying to file a ticket.
-- **multiple income streams**: Mostly daydreaming at this stage. The plan is still in "someday" and hasn't reached the roadmap yet.
-
-## tools I reach for
-
-- **languages**: JavaScript, TypeScript, Python, C, Bash
-- **backend and messaging**: Node.js, Express.js, gRPC, WebSocket, REST, GraphQL, RabbitMQ
-- **data**: PostgreSQL, MongoDB, Redis
-- **cloud and devops**: AWS, GCP, Docker, Kubernetes, GitHub Actions
-- **ai and agents**: LLM-powered agentic workflows, OpenAI API, prompt engineering
-- **observability**: New Relic, Grafana, Sentry
-
-## get in touch
-
-If you're building something interesting, or just want to reach out, I'd be glad to hear from you.
-
-- [contact@ayushbahuguna.com](mailto:contact@ayushbahuguna.com)
-- [linkedin](https://www.linkedin.com/in/ayushdevelops/)
-- [github](https://github.com/relentless-coder)
-
-© 2026 Ayush Bahuguna
+This website was built using [my static site generator](https://github.com/relentless-coder/ssg)
